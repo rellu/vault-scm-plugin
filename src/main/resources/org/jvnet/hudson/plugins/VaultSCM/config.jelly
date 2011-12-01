@@ -1,0 +1,27 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <!--
+    This jelly script is used for per-project configuration.
+
+    See global.jelly for a general discussion about jelly script.
+  -->
+
+  <!--
+    Creates a text field that shows the value of the "name" property.
+    When submitted, it will be passed to the corresponding constructor parameter.
+  -->
+    <f:entry title="Path to Vault executable">
+      <f:textbox name="VaultSCM.VaultSCMExecutable" value="${scm.VaultSCMExecutable}" />
+    </f:entry>
+    <f:entry title="Server name">
+      <f:textbox name="VaultSCM.server" value="${scm.server}" />
+    </f:entry>
+    <f:entry title="Username">
+      <f:textbox name="VaultSCM.userName" value="${scm.userName}" />
+    </f:entry>
+    <f:entry title="Password">
+      <f:textbox name="VaultSCM.password" value="${scm.password}" />
+    </f:entry>
+    <f:entry title="Repository">
+      <f:textbox name="VaultSCM.repository" value="${scm.repository}" />
+    </f:entry>
+</j:jelly>
