@@ -228,7 +228,7 @@ public final class VaultSCM extends SCM {
 		cmd[0] = getVaultSCMExecutable();
 		cmd[1] = "VERSIONHISTORY" ;
 		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl"
+		cmd[3] = "-ssl";
 		cmd[4] = "-user ".concat(userName);
 		cmd[5] = "-password ".concat(password);
 		cmd[6]= "-repository".concat(repository);
