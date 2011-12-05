@@ -38,11 +38,11 @@ public final class VaultSCMChangeLogSet extends ChangeLogSet<VaultSCMChangeLogSe
 
 	public static class VaultSCMChangeLogSetEntry extends ChangeLogSet.Entry{
 	
-		public VaultSCMChangeLogSetEntry(String name, String comment, String version, String action, String date,ChangeLogSet parent, String userName ){
-			this.affectedFile = name;
+		public VaultSCMChangeLogSetEntry(String comment, String version, String date,ChangeLogSet parent, String userName ){
+			this.affectedFile = "User defined path";
 			this.comment = comment;
 			this.version = version;
-			this.action = action;
+			//this.action = action;
 			this.date = date;
 			this.user = User.get(userName);
 			setParent(parent);
@@ -55,29 +55,29 @@ public final class VaultSCMChangeLogSet extends ChangeLogSet<VaultSCMChangeLogSe
 		
 		@Override
 		public String getMsg() {
-			return "File: ".concat(affectedFile).concat(" Action: ").concat(action).concat(" Version: ").concat(version).concat(" Comment: ").concat(comment);
+			return "Changed: ".concat(" Version: ").concat(version).concat(" Comment: ").concat(comment);
 		}
 		
 		@Override
 		public String getMsgAnnotated() {
-			return affectedFile;
+			return comment;
 		}
 			
 		public String getVersion(){
 			return version;
 		}
 		
-		public String getName(){
-			return affectedFile;
-		}
+//		public String getName(){
+//			return affectedFile;
+//		}
 		
-		public String getAffectedFile(){
-			return affectedFile;
-		}
+//		public String getAffectedFile(){
+//			return affectedFile;
+//		}
 		
-		public String getAction(){
-			return action;
-		}
+//		public String getAction(){
+//			return action;
+//		}
 		public String getComment(){
 			return comment;
 		}	
@@ -85,7 +85,7 @@ public final class VaultSCMChangeLogSet extends ChangeLogSet<VaultSCMChangeLogSe
 		@Override
 		public Collection<String> getAffectedPaths() {
 			Collection<String> col = new ArrayList<String>();
-			col.add(affectedFile);
+			col.add("user defined path");
 			return col;
 		}
 		

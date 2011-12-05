@@ -58,13 +58,19 @@ public final class VaultSCM extends SCM {
 	//configuration variables from user interface
 
 	private String server;	
-	private String serverPort;
 	private String userName;
 	private String password;
-	private String repository;
+	private String repository; //name of the repository
 	private String vaultSCMExecutable;
-	//private String branch ; //not supported
+	private String path; //path in repository. Starts with $ sign.
 	
+	
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
 	//getters and setters
 	public String getServer() {
 		return server;
@@ -72,12 +78,7 @@ public final class VaultSCM extends SCM {
 	public void setServer(String server) {
 		this.server = server;
 	}
-	public String getServerPort() {
-		return serverPort;
-	}
-	public void setServerPort(String serverPort) {
-		this.serverPort = serverPort;
-	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -113,14 +114,14 @@ public final class VaultSCM extends SCM {
 	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("yyyyMMddHHmmss");
 
 	@DataBoundConstructor
-	public VaultSCM(String server, String serverPort, String userName,
+	public VaultSCM(String server, String path, String userName,
 			String password, String repository, String vaultSCMExecutable) {
 		this.server = server;
-		this.serverPort = serverPort;
 		this.userName = userName;
 		this.password = password;
 		this.repository = repository;
 		this.vaultSCMExecutable = vaultSCMExecutable;
+		this.path = path;
 	}
 	
     @Override
@@ -173,17 +174,18 @@ public final class VaultSCM extends SCM {
 		 if (server != null )
 			 listener.getLogger().println("server: "+server);
 		
-		String[] cmd = new String[10];
+		String[] cmd = new String[9];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
 		cmd[1] = "GET" ;
 		cmd[2] = "-host ".concat(server) ;
-		cmd[3] = "-ssl";
+		cmd[3] = "-ssl ";
 		cmd[4] = "-user ".concat(userName);
 		cmd[5] = "-password ".concat(password);
 		cmd[6]= "-repository ".concat(repository);
 		//optional parameters
-		cmd[7]= "-merge overwrite";
+		cmd[7]= "-merge overwrite ";
+		cmd[8]= path;
 		int cmdResult = launcher.launch().cmds(cmd).envs(new String[0])
 				.stdin(null).stdout(listener.getLogger()).pwd(workspace).join();
 		if (cmdResult == 0)
@@ -223,15 +225,16 @@ public final class VaultSCM extends SCM {
 		dateRange = dateRange.concat(":");
 		dateRange = dateRange.concat(VAULT_DATETIME_FORMATTER.format(currentDate));		
 		
-		String[] cmd = new String[9];
+		String[] cmd = new String[8];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "VERSIONHISTORY" ;
+		cmd[1] = "VERSIONHISTORY " ;
 		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl";
+		cmd[3] = "-ssl ";
 		cmd[4] = "-user ".concat(userName);
 		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository".concat(repository);
+		cmd[6]= "-repository ".concat(repository);
+		cmd[7] = path;
 		//optional parameters here if needed
 		
 		FileOutputStream os = new FileOutputStream(changelogFile);

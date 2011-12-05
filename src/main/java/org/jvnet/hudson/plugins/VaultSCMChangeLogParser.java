@@ -11,6 +11,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+//XML parsing
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import org.kohsuke.stapler.export.Exported;
 import org.xml.sax.SAXException;
 
@@ -28,97 +36,40 @@ public class VaultSCMChangeLogParser extends ChangeLogParser {
 	@Override
 	public ChangeLogSet<? extends Entry> parse(AbstractBuild build,
 			File changelogFile) throws IOException, SAXException {
-
+		
+		 String userName = null;
+		 String date = null;
+		 String comment = null;
+		 String version = null;
 		//open the changelog File
 		VaultSCMChangeLogSet cls = new VaultSCMChangeLogSet(build);		
-		String line = null;
-		BufferedReader br = null;
-		
-		boolean foundAnItem=false;
-		try{			
-			br = new BufferedReader(new FileReader(changelogFile));
-			while ((line = br.readLine())!=null)
-			{
-				//skip the total line
-				if (foundAnItem == false){
-					foundAnItem=true;
-					continue;
-				}
-					                   	            			
-				//check for count first
-				if (line.startsWith("total-0"))
-					break; //there are none, abandon ship
+		 try {
+			  
+			  DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			  DocumentBuilder db = dbf.newDocumentBuilder();
+			  Document doc = db.parse(changelogFile);
+			  doc.getDocumentElement().normalize();
+			  NodeList nodeLst = doc.getElementsByTagName("item");
+			  
+			  for (int s = 0; s < nodeLst.getLength(); s++) {
+			  
+			  Element mostRecentChange = (Element)nodeLst.item(s);
+			  userName = mostRecentChange.getAttribute("user");
+			  date = mostRecentChange.getAttribute("date");
+			  comment = mostRecentChange.getAttribute("comment");
+			  version = mostRecentChange.getAttribute("version");
+			  
+
 				
-				//get the path
-				int end = line.indexOf(">");
-				
-				//sanity check
-				if (end<=0)
-					break;
-				
-				String path = line.substring(1,end);
-				line = line.substring(end+1);
-				
-				//get the name
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String name = line.substring(1,end);
-				line = line.substring(end+1);
-				name = path.concat("/").concat(name);
-				
-				//get the version
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String version = line.substring(1,end);
-				line = line.substring(end+1);
-				
-				//get the action
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String action = line.substring(1,end);
-				line = line.substring(end+1);
-				
-				//get the date
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String date = line.substring(1,end);
-				line = line.substring(end+1);
-				
-				//get the comment
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String comment = line.substring(1,end);
-				line = line.substring(end+1);
-										
-				//get the user
-				end = line.indexOf(">");
-				//sanity check
-				if (end<=0)
-					break;
-				String userName = line.substring(1,end);
-				line = line.substring(end+1);
-				
-				VaultSCMChangeLogSetEntry next = new VaultSCMChangeLogSetEntry(name,comment,version,action,date,cls ,userName);
+				VaultSCMChangeLogSetEntry next = new VaultSCMChangeLogSetEntry(comment,version,date,cls,userName);
 				if (!cls.addEntry(next)) //terminate on error
 					break;
-				
-			}	
-			
-		}catch (FileNotFoundException e) {
-		      e.printStackTrace();
-	    } 
-
-		br.close();
+		 	}
+			  
+		  } catch (Exception e) {
+			    e.printStackTrace();
+			  }	
+			  
 		
 		return cls;
 	}
