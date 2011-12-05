@@ -162,7 +162,7 @@ public final class VaultSCM extends SCM {
 		Date lastBuild = ((VaultSCMRevisionState)baseline).getDate();
 		Date now = new Date();
 		File temporaryFile = File.createTempFile("changes", "txt");
-		double countChanges = determineChangeCount(launcher, workspace, listener, lastBuild,now,temporaryFile);
+		int countChanges = determineChangeCount(launcher, workspace, listener, lastBuild,now,temporaryFile);
 				
 		if (countChanges == 0)
 			return PollingResult.NO_CHANGES;
@@ -183,18 +183,19 @@ public final class VaultSCM extends SCM {
 		 if (server != null )
 			 listener.getLogger().println("server: "+server);
 		
-		String[] cmd = new String[9];
+		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = " GET ";
-		cmd[2] = " -host ".concat(server) ;
-		cmd[3] = " -ssl ";
-		cmd[4] = " -user ".concat(userName);
-		cmd[5] = " -password ".concat(password);
-		cmd[6] = " -repository ".concat(repository);
+		cmd[1] = "GET ";
+		cmd[2] = "-host ".concat(server) ;
+		cmd[3] = "-ssl";
+		cmd[4] = "-user ".concat(userName);
+		cmd[5] = "-password ".concat(password);
+		cmd[6] = "-repository ".concat(repository);
 		//optional parameters
-		cmd[7] = " -merge overwrite ";
-		cmd[8] = this.path;
+		cmd[7] = "-merge overwrite";
+		cmd[8] = "-workingfolder ".concat(workspace.getRemote());
+		cmd[9] = this.path;
 		
 		listener.getLogger().print("cmd="+cmd.toString());
 		int cmdResult = launcher.launch().cmds(cmd).envs(build.getEnvironment(TaskListener.NULL))
@@ -239,15 +240,15 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = " VERSIONHISTORY " ;
-		cmd[2] = " -host ".concat(server);
-		cmd[3] = " -ssl ";
-		cmd[4] = " -user ".concat(userName);
-		cmd[5] = " -password ".concat(password);
-		cmd[6]= " -repository ".concat(repository);
-		cmd[7] = " -enddate ".concat(today);
-		cmd[8] = " -begindate ".concat(latestBuildDate).concat(" ");
-		cmd[9] = path;
+		cmd[1] = "VERSIONHISTORY" ;
+		cmd[2] = "-host ".concat(server);
+		cmd[3] = "-ssl";
+		cmd[4] = "-user ".concat(userName);
+		cmd[5] = "-password ".concat(password);
+		cmd[6]= "-repository ".concat(repository);
+		cmd[7] = "-enddate ".concat(today);
+		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[9] = this.path;
 		//optional parameters here if needed
 		
 		FileOutputStream os = new FileOutputStream(changelogFile);
@@ -257,7 +258,7 @@ public final class VaultSCM extends SCM {
             try {            	
             	
             	
-            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdin(null).stdout(bos).pwd(workspace).join();
+            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdout(bos).pwd(workspace).join();
             	if (cmdResult != 0)
             	{
             		listener.fatalError("Changelog failed with exit code " + cmdResult);
@@ -291,15 +292,15 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = " VERSIONHISTORY " ;
-		cmd[2] = " -host ".concat(server);
-		cmd[3] = " -ssl ";
-		cmd[4] = " -user ".concat(userName);
-		cmd[5] = " -password ".concat(password);
-		cmd[6]= " -repository ".concat(repository);
-		cmd[7] = " -enddate ".concat(today);
-		cmd[8] = " -begindate ".concat(latestBuildDate).concat(" ");
-		cmd[9] = path;
+		cmd[1] = "VERSIONHISTORY" ;
+		cmd[2] = "-host ".concat(server);
+		cmd[3] = "-ssl";
+		cmd[4] = "-user ".concat(userName);
+		cmd[5] = "-password ".concat(password);
+		cmd[6]= "-repository ".concat(repository);
+		cmd[7] = "-enddate ".concat(today);
+		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[9] = this.path;
 		//optional parameters here if needed
 		
 		FileOutputStream os = new FileOutputStream(changelogFile);
@@ -309,7 +310,7 @@ public final class VaultSCM extends SCM {
             try {            	
             	
             	
-            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdin(null).stdout(bos).pwd(workspace).join();
+            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdout(bos).pwd(workspace).join();
             	if (cmdResult != 0)
             	{
             		listener.fatalError("Determine changes count failed with exit code " + cmdResult);            		
