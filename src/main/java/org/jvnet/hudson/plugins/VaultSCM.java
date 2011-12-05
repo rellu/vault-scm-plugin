@@ -1,5 +1,8 @@
 package org.jvnet.hudson.plugins;
 
+import org.jvnet.hudson.plugins.VaultSCMRevisionState;
+import org.jvnet.hudson.plugins.VaultSCMChangeLogParser;
+import org.jvnet.hudson.plugins.VaultSCMChangeLogSet;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -106,7 +109,7 @@ public final class VaultSCM extends SCM {
 		this.repository = repository;
 	}
 	public String getVaultSCMExecutable() {
-		return vaultSCMExecutable;
+		return this.vaultSCMExecutable;
 	}
 	public void setVaultSCMExecutable(String vaultSCMExecutable) {
 		this.vaultSCMExecutable = vaultSCMExecutable;
@@ -183,17 +186,19 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[9];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "GET" ;
-		cmd[2] = "-host ".concat(server) ;
-		cmd[3] = "-ssl ";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository ".concat(repository);
+		cmd[1] = " GET ";
+		cmd[2] = " -host ".concat(server) ;
+		cmd[3] = " -ssl ";
+		cmd[4] = " -user ".concat(userName);
+		cmd[5] = " -password ".concat(password);
+		cmd[6] = " -repository ".concat(repository);
 		//optional parameters
-		cmd[7]= "-merge overwrite ";
-		cmd[8]= path;
-		int cmdResult = launcher.launch().cmds(cmd).envs(new String[0])
-				.stdin(null).stdout(listener.getLogger()).pwd(workspace).join();
+		cmd[7] = " -merge overwrite ";
+		cmd[8] = this.path;
+		
+		listener.getLogger().print("cmd="+cmd.toString());
+		int cmdResult = launcher.launch().cmds(cmd).envs(build.getEnvironment(TaskListener.NULL))
+				.stdout(listener.getLogger()).pwd(workspace).join();
 		if (cmdResult == 0)
 		{
 			final Run<?, ?> lastBuild = build.getPreviousBuild();
@@ -234,14 +239,14 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "VERSIONHISTORY " ;
-		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl ";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository ".concat(repository);
-		cmd[7] = "-enddate ".concat(today);
-		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[1] = " VERSIONHISTORY " ;
+		cmd[2] = " -host ".concat(server);
+		cmd[3] = " -ssl ";
+		cmd[4] = " -user ".concat(userName);
+		cmd[5] = " -password ".concat(password);
+		cmd[6]= " -repository ".concat(repository);
+		cmd[7] = " -enddate ".concat(today);
+		cmd[8] = " -begindate ".concat(latestBuildDate).concat(" ");
 		cmd[9] = path;
 		//optional parameters here if needed
 		
@@ -286,14 +291,14 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "VERSIONHISTORY " ;
-		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl ";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository ".concat(repository);
-		cmd[7] = "-enddate ".concat(today);
-		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[1] = " VERSIONHISTORY " ;
+		cmd[2] = " -host ".concat(server);
+		cmd[3] = " -ssl ";
+		cmd[4] = " -user ".concat(userName);
+		cmd[5] = " -password ".concat(password);
+		cmd[6]= " -repository ".concat(repository);
+		cmd[7] = " -enddate ".concat(today);
+		cmd[8] = " -begindate ".concat(latestBuildDate).concat(" ");
 		cmd[9] = path;
 		//optional parameters here if needed
 		
