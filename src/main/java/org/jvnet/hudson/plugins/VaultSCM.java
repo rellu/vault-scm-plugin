@@ -23,6 +23,14 @@ import hudson.scm.SCMDescriptor;
 import hudson.scm.SCM;
 import hudson.scm.SCMRevisionState;
 
+//XML parsing
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 @Extension
 public final class VaultSCM extends SCM {
 	
@@ -110,8 +118,7 @@ public final class VaultSCM extends SCM {
 	@Extension
 	public static final VaultSCMDescriptor DESCRIPTOR = new VaultSCMDescriptor();
 	
-	//TODO: verify dateformat from version history
-	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("yyyyMMddHHmmss");
+	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	@DataBoundConstructor
 	public VaultSCM(String server, String path, String userName,
@@ -129,13 +136,11 @@ public final class VaultSCM extends SCM {
         return DESCRIPTOR;
     }
     
-    //TODO: method is incomplete
 	@Override
 	public SCMRevisionState calcRevisionsFromBuild(AbstractBuild<?, ?> build,
 			Launcher launcher, TaskListener listener) throws IOException,
 			InterruptedException {
 
-		//TODO: Class for Vault SCM Revision State
 		VaultSCMRevisionState scmRevisionState = new VaultSCMRevisionState();		
 		final Date lastBuildDate = build.getTime();
 		scmRevisionState.setDate(lastBuildDate);
@@ -154,14 +159,15 @@ public final class VaultSCM extends SCM {
 		Date lastBuild = ((VaultSCMRevisionState)baseline).getDate();
 		Date now = new Date();
 		File temporaryFile = File.createTempFile("changes", "txt");
-		
+		double countChanges = determineChangeCount(launcher, workspace, listener, lastBuild,now,temporaryFile);
 				
-//		if (countChanges == 0)
-//			return PollingResult.NO_CHANGES;
-//		else if (countChanges < changesThreshold)
-//			return PollingResult.SIGNIFICANT;
-//			
-		return PollingResult.BUILD_NOW;
+		if (countChanges == 0)
+			return PollingResult.NO_CHANGES;
+		else
+			//return PollingResult.SIGNIFICANT;
+			return PollingResult.BUILD_NOW;
+			
+		
 	}
 	
 	
@@ -221,11 +227,11 @@ public final class VaultSCM extends SCM {
 		
 		boolean result = true;
 		
-		String dateRange = VAULT_DATETIME_FORMATTER.format(lastBuildDate);
-		dateRange = dateRange.concat(":");
-		dateRange = dateRange.concat(VAULT_DATETIME_FORMATTER.format(currentDate));		
+		String latestBuildDate = VAULT_DATETIME_FORMATTER.format(lastBuildDate);
 		
-		String[] cmd = new String[8];
+		String today = (VAULT_DATETIME_FORMATTER.format(currentDate));		
+		
+		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
 		cmd[1] = "VERSIONHISTORY " ;
@@ -234,7 +240,9 @@ public final class VaultSCM extends SCM {
 		cmd[4] = "-user ".concat(userName);
 		cmd[5] = "-password ".concat(password);
 		cmd[6]= "-repository ".concat(repository);
-		cmd[7] = path;
+		cmd[7] = "-enddate ".concat(today);
+		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[9] = path;
 		//optional parameters here if needed
 		
 		FileOutputStream os = new FileOutputStream(changelogFile);
@@ -263,6 +271,65 @@ public final class VaultSCM extends SCM {
         listener.getLogger().println("Changelog calculated successfully.");
         listener.getLogger().println("Change log file: " + changelogFile.getAbsolutePath() );
         
+        return result;
+	}
+	
+	private int determineChangeCount(Launcher launcher, FilePath workspace,
+			TaskListener listener, Date lastBuildDate, Date currentDate, File changelogFile) throws IOException, InterruptedException {
+		
+		int result = 0;
+		
+		String latestBuildDate = VAULT_DATETIME_FORMATTER.format(lastBuildDate);
+		
+		String today = (VAULT_DATETIME_FORMATTER.format(currentDate));		
+		
+		String[] cmd = new String[10];
+		//required parameters
+		cmd[0] = getVaultSCMExecutable();
+		cmd[1] = "VERSIONHISTORY " ;
+		cmd[2] = "-host ".concat(server);
+		cmd[3] = "-ssl ";
+		cmd[4] = "-user ".concat(userName);
+		cmd[5] = "-password ".concat(password);
+		cmd[6]= "-repository ".concat(repository);
+		cmd[7] = "-enddate ".concat(today);
+		cmd[8] = "-begindate ".concat(latestBuildDate);
+		cmd[9] = path;
+		//optional parameters here if needed
+		
+		FileOutputStream os = new FileOutputStream(changelogFile);
+		try {
+            BufferedOutputStream bos = new BufferedOutputStream(os);
+            PrintWriter writer = new PrintWriter(new FileWriter(changelogFile));
+            try {            	
+            	
+            	
+            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdin(null).stdout(bos).pwd(workspace).join();
+            	if (cmdResult != 0)
+            	{
+            		listener.fatalError("Determine changes count failed with exit code " + cmdResult);            		
+            		result = 0;
+            	}
+            	
+            	
+            } finally {
+            	writer.close();
+                bos.close();
+            }
+        } finally {
+            os.close();
+        }
+		try {
+		  DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		  DocumentBuilder db = dbf.newDocumentBuilder();
+		  Document doc = db.parse(changelogFile);
+		  doc.getDocumentElement().normalize();
+		  NodeList nodeLst = doc.getElementsByTagName("item");
+		  result = nodeLst.getLength();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
         return result;
 	}
 	
