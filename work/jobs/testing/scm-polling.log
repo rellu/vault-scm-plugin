@@ -1,0 +1,4 @@
+Started on Dec 7, 2011 4:42:28 PM
+[workspace] $ ./Vault VERSIONHISTORY -host name -ssl -user user -password pass -repository "repo repo" -enddate 2011-12-07T16:42:28 -begindate 2011-12-07T16:25:02 $/somefolder
+Done. Took 0.2 sec
+No changes

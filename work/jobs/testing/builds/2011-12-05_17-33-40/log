@@ -1,0 +1,17 @@
+Started by user anonymous
+server: name
+cmd=[Ljava.lang.String;@121157c9[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault " GET " " -host name" " -ssl " " -user user" " -password pass" " -repository repo" " -merge overwrite " $/somefolder
+<vault>
+  <history>
+    <item version="15036" date="5.12.2011 10:23:08" user="KalleP" comment="Item:2180 - Hoitosuunnitelmaistunnon istuntotapahtuman poisto vie tapahtumakansioon&#xA;&#xA;" objverid="3492497" txid="495266" />
+    <item version="15035" date="5.12.2011 9:16:32" user="Hannu" comment="Item:3236 - Uusi laskuliite O: Hinnat k�ynninsyitt�in&#xA;&#xA;INVOICE_APX_TYPE is notany more auto increment type, so these cannot be inserted as used to." objverid="3492492" txid="495265" />
+  </history>
+  <result>
+    <success>True</success>
+  </result>
+</vault>
+[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault " VERSIONHISTORY " " -host name" " -ssl " " -user user" " -password pass" " -repository repo" " -enddate 05.12.2011 17:33:41" " -begindate 05.12.2011 17:25:59 " $/somefolder
+Changelog calculated successfully.
+Change log file: /Users/arelande/Documents/vault-scm-plugin/./work/jobs/testing/builds/2011-12-05_17-33-40/changelog.xml
+Checkout completed.
+Finished: SUCCESS

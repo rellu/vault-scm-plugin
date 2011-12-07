@@ -1,0 +1,16 @@
+Started by user anonymous
+server: name
+cmd=[Ljava.lang.String;@39f58a0e[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault "GET " "-host name" -ssl "-user user" "-password pass" "-repository repo" "-merge overwrite" "-workingfolder workspace" $/somefolder
+<vault>
+  <result>
+
+    <success>True</success>
+  </result>
+</vault>
+[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault VERSIONHISTORY "-host name" -ssl "-user user" "-password pass" "-repository repo" "-enddate 05.12.2011 18:16:48" "-begindate 05.12.2011 18:03:36" $/somefolder
+Changelog calculated successfully.
+Change log file: /Users/arelande/Documents/vault-scm-plugin/./work/jobs/testing/builds/2011-12-05_18-16-47/changelog.xml
+Checkout completed.
+[workspace] $ /bin/bash /var/folders/5x/rs3h6dc52yx58k84v78yg0nc0000gn/T/hudson7234456132811453344.sh
+Hello World!
+Finished: SUCCESS

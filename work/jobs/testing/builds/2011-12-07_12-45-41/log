@@ -1,0 +1,15 @@
+Started by user anonymous
+server: name
+[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault "-user user"
+<vault>
+  <result>
+    <success>True</success>
+  </result>
+</vault>
+[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault VERSIONHISTORY "-host name" -ssl "-user user" "-password pass" "-repository repo" "-enddate 07.12.2011 12:45:41" "-begindate 07.12.2011 12:43:51" $/somefolder
+Changelog calculated successfully.
+Change log file: /Users/arelande/Documents/vault-scm-plugin/./work/jobs/testing/builds/2011-12-07_12-45-41/changelog.xml
+Checkout completed.
+[workspace] $ /bin/bash /var/folders/5x/rs3h6dc52yx58k84v78yg0nc0000gn/T/hudson4218868419106949456.sh
+Hello World!
+Finished: SUCCESS

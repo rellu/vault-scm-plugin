@@ -1,0 +1,16 @@
+Started by user anonymous
+server: name
+[workspace] $ ./Vault -host name -ssl -user user -password pass -repository '"repo repo"' -merge automatic -workingfolder /Users/arelande/Documents/vault-scm-plugin/work/jobs/testing/workspace $/somefolder
+<vault>
+  <result>
+    <success>True</success>
+  </result>
+</vault>
+name
+[workspace] $ ./Vault VERSIONHISTORY "-host name" -ssl "-user user" "-password pass" '-repository "repo repo"' "-enddate 2011-44-07T15:44:10" "-begindate 2011-43-07T15:43:15" $/somefolder "./Vault" "VERSIONHISTORY" '"-host name"' "-ssl" '"-user user"' '"-password pass"' '"-repository "repo repo""' '"-enddate 2011-44-07T15:44:10"' '"-begindate 2011-43-07T15:43:15"' "$/somefolder"
+Changelog calculated successfully.
+Change log file: /Users/arelande/Documents/vault-scm-plugin/./work/jobs/testing/builds/2011-12-07_15-44-09/changelog.xml
+Checkout completed.
+[workspace] $ /bin/bash /var/folders/5x/rs3h6dc52yx58k84v78yg0nc0000gn/T/hudson7003359061061250119.sh
+Hello World!
+Finished: SUCCESS

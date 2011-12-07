@@ -25,6 +25,7 @@ import hudson.scm.PollingResult;
 import hudson.scm.SCMDescriptor;
 import hudson.scm.SCM;
 import hudson.scm.SCMRevisionState;
+import hudson.util.ArgumentListBuilder;
 
 //XML parsing
 import javax.xml.parsers.DocumentBuilder;
@@ -121,7 +122,7 @@ public final class VaultSCM extends SCM {
 	@Extension
 	public static final VaultSCMDescriptor DESCRIPTOR = new VaultSCMDescriptor();
 	
-	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	@DataBoundConstructor
 	public VaultSCM(String server, String path, String userName,
@@ -167,7 +168,6 @@ public final class VaultSCM extends SCM {
 		if (countChanges == 0)
 			return PollingResult.NO_CHANGES;
 		else
-			//return PollingResult.SIGNIFICANT;
 			return PollingResult.BUILD_NOW;
 			
 		
@@ -186,19 +186,30 @@ public final class VaultSCM extends SCM {
 		String[] cmd = new String[10];
 		//required parameters
 		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "GET ";
+		cmd[1] = "GET";
 		cmd[2] = "-host ".concat(server) ;
 		cmd[3] = "-ssl";
 		cmd[4] = "-user ".concat(userName);
 		cmd[5] = "-password ".concat(password);
 		cmd[6] = "-repository ".concat(repository);
 		//optional parameters
-		cmd[7] = "-merge overwrite";
+		cmd[7] = "-merge automatic";
 		cmd[8] = "-workingfolder ".concat(workspace.getRemote());
 		cmd[9] = this.path;
 		
-		listener.getLogger().print("cmd="+cmd.toString());
-		int cmdResult = launcher.launch().cmds(cmd).envs(build.getEnvironment(TaskListener.NULL))
+    	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
+    	argBuildr.add(getVaultSCMExecutable());
+    	argBuildr.add("GET");
+    	argBuildr.add("-host",server);
+    	argBuildr.add("-ssl");
+    	argBuildr.add("-user",userName);
+    	argBuildr.add("-password",password);
+    	argBuildr.add("-repository",repository);
+    	argBuildr.add("-merge","automatic");
+    	argBuildr.add("-workingfolder",workspace.getRemote() );
+    	argBuildr.add(this.path);
+    	
+		int cmdResult = launcher.launch().cmds(argBuildr).envs(build.getEnvironment(TaskListener.NULL))
 				.stdout(listener.getLogger()).pwd(workspace).join();
 		if (cmdResult == 0)
 		{
@@ -251,14 +262,27 @@ public final class VaultSCM extends SCM {
 		cmd[9] = this.path;
 		//optional parameters here if needed
 		
+		
+		
 		FileOutputStream os = new FileOutputStream(changelogFile);
 		try {
             BufferedOutputStream bos = new BufferedOutputStream(os);
             PrintWriter writer = new PrintWriter(new FileWriter(changelogFile));
             try {            	
             	
+            	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
+            	argBuildr.add(getVaultSCMExecutable());
+            	argBuildr.add("VERSIONHISTORY");
+            	argBuildr.add("-host",server);
+            	argBuildr.add("-ssl");
+            	argBuildr.add("-user",userName);
+            	argBuildr.add("-password",password);
+            	argBuildr.add("-repository",repository);
+            	argBuildr.add("-enddate",today);
+            	argBuildr.add("-begindate",latestBuildDate);
+            	argBuildr.add(this.path);
             	
-            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdout(bos).pwd(workspace).join();
+            	int cmdResult = launcher.launch().cmds(argBuildr).envs(new String[0]).stdout(bos).pwd(workspace).join();
             	if (cmdResult != 0)
             	{
             		listener.fatalError("Changelog failed with exit code " + cmdResult);
@@ -309,8 +333,19 @@ public final class VaultSCM extends SCM {
             PrintWriter writer = new PrintWriter(new FileWriter(changelogFile));
             try {            	
             	
+            	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
+            	argBuildr.add(getVaultSCMExecutable());
+            	argBuildr.add("VERSIONHISTORY");
+            	argBuildr.add("-host",server);
+            	argBuildr.add("-ssl");
+            	argBuildr.add("-user",userName);
+            	argBuildr.add("-password",password);
+            	argBuildr.add("-repository",repository);
+            	argBuildr.add("-enddate",today);
+            	argBuildr.add("-begindate",latestBuildDate);
+            	argBuildr.add(this.path);
             	
-            	int cmdResult = launcher.launch().cmds(cmd).envs(new String[0]).stdout(bos).pwd(workspace).join();
+            	int cmdResult = launcher.launch().cmds(argBuildr).envs(new String[0]).stdout(bos).pwd(workspace).join();
             	if (cmdResult != 0)
             	{
             		listener.fatalError("Determine changes count failed with exit code " + cmdResult);            		

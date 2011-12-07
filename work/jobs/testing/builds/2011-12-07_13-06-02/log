@@ -1,0 +1,16 @@
+Started by user anonymous
+server: name
+[workspace] $ ./Vault GET "-host name" -ssl "-user user" "-password pass" "-repository repo" "-merge overwrite" "-workingfolder /Users/arelande/Documents/vault-scm-plugin/work/jobs/testing/workspace" $/somefolder
+<vault>
+  <result>
+    <success>True</success>
+  </result>
+</vault>
+-host
+[workspace] $ ./Vault VERSIONHISTORY "-host name" -ssl "-user user" "-password pass" "-repository repo" "-enddate 07.12.2011 13:06:02" "-begindate 07.12.2011 13:05:39" $/somefolder
+Changelog calculated successfully.
+Change log file: /Users/arelande/Documents/vault-scm-plugin/./work/jobs/testing/builds/2011-12-07_13-06-02/changelog.xml
+Checkout completed.
+[workspace] $ /bin/bash /var/folders/5x/rs3h6dc52yx58k84v78yg0nc0000gn/T/hudson8140092203623564700.sh
+Hello World!
+Finished: SUCCESS
