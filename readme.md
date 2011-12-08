@@ -7,15 +7,17 @@ This is a plugin for [Jenkins CI server](http://jenkins-ci.org/). This plugin in
 NOTE
 ====
 
-This is version 0.1 and might still have some issue.
-We are not affiliated with SourceGear so in this sense this is an unofficial plugin.
-This software is MIT licensed open-source, so please fork it and make updates as you require. 
+* This is version 0.1 and might still have some unexpected issues.
+* We are not affiliated with SourceGear so in this sense this is an unofficial plugin.
+* This software is MIT licensed open-source, so please free to fork it and improve it :)
 
 Installation
 ============
 
 * Copy the .hpi file to <jenkins>/plugins/ or use the GUI installer on "manage Jenkins->manage plugins->advanced"
-* Restart Jenkins	
+* Restart Jenkins
+
+Note: you need to have vault command line tool installed to use this plugin.
 	
 Usage
 =====
@@ -34,6 +36,11 @@ After the plugin is installed, you should see Vault SCM option when you choose a
 more information about the parameters [here](http://download.sourcegear.com/misc/vault/help/client/clc.htm). See VERSIONHISTORY and GET commands.
 
 NOTE: passwords, usernames etc. are not encrypted in any way. To overcome this problem you can execute vault.exe REMEMBERLOGIN -host -user -password with your details on the same user that Jenkins use and then leave those fields empty. This way Vault will remember your login details. 	
+
+Functionality
+=============
+
+This plugin utilizes Vault's command line tool. VERSIONHISTORY command is used to determine and log changes and GET command is used to retrieve files from SCM server. 
 
 TODO, known issues and limitations:
 =====
