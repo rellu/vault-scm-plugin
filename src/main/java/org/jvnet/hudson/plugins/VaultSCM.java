@@ -81,8 +81,22 @@ public final class VaultSCM extends SCM {
 	private String repository; //name of the repository
 	private String vaultSCMExecutable;
 	private String path; //path in repository. Starts with $ sign.
+	private Boolean ssl; //ssl enabled?
+	private String merge; //merge options: automatic, overwrite, later
 	
 	
+	public Boolean getSsl() {
+		return ssl;
+	}
+	public void setSsl(Boolean ssl) {
+		this.ssl = ssl;
+	}
+	public String getMerge() {
+		return merge;
+	}
+	public void setMerge(String merge) {
+		this.merge = merge;
+	}
 	public String getPath() {
 		return path;
 	}
@@ -133,13 +147,15 @@ public final class VaultSCM extends SCM {
 
 	@DataBoundConstructor
 	public VaultSCM(String server, String path, String userName,
-			String password, String repository, String vaultSCMExecutable) {
+			String password, String repository, String vaultSCMExecutable, Boolean ssl, String merge) {
 		this.server = server;
 		this.userName = userName;
 		this.password = password;
 		this.repository = repository;
 		this.vaultSCMExecutable = vaultSCMExecutable;
 		this.path = path;
+		this.ssl = ssl; //Default to true
+		this.merge = merge;
 	}
 	
     @Override
@@ -208,8 +224,10 @@ public final class VaultSCM extends SCM {
     	if (!repository.isEmpty())
     		argBuildr.add("-repository",repository);
     	
-    	argBuildr.add("-ssl");
-    	argBuildr.add("-merge","automatic");
+    	if (this.ssl)
+    		argBuildr.add("-ssl");
+    	
+    	argBuildr.add("-merge",merge);
     	argBuildr.add("-workingfolder",workspace.getRemote() );
     	argBuildr.add(this.path);
     	
@@ -274,7 +292,9 @@ public final class VaultSCM extends SCM {
             	if (!repository.isEmpty())
             		argBuildr.add("-repository",repository);
             	
-            	argBuildr.add("-ssl");
+            	if (this.ssl)
+            		argBuildr.add("-ssl");
+            	
             	argBuildr.add("-enddate",today);
             	argBuildr.add("-begindate",latestBuildDate);
             	argBuildr.add(this.path);
@@ -332,7 +352,9 @@ public final class VaultSCM extends SCM {
             	if (!repository.isEmpty())
             		argBuildr.add("-repository",repository);
             	
-            	argBuildr.add("-ssl");
+            	if (this.ssl)
+            		argBuildr.add("-ssl");
+            	
             	argBuildr.add("-enddate",today);
             	argBuildr.add("-begindate",latestBuildDate);
             	argBuildr.add(this.path);

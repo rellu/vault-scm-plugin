@@ -1,5 +1,0 @@
-Started on Dec 8, 2011 10:19:44 AM
-[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault VERSIONHISTORY -host foo -user bar -password baz -repository "repo repo" -ssl -enddate 2011-12-08T10:19:44 -begindate 2011-12-07T18:01:07 $/somefolder
-FATAL: Determine changes count failed with exit code 1
-[8mha:AAAAWB+LCAAAAAAAAABb85aBtbiIQSmjNKU4P08vOT+vOD8nVc8DzHWtSE4tKMnMz/PLL0ldFVf2c+b/lb5MDAwVRQxSaBqcITRIIQMEMIIUFgAAckCEiWAAAAA=[0mDone. Took 0.31 sec
-No changes

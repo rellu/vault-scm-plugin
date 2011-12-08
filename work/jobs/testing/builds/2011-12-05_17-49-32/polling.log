@@ -1,4 +1,0 @@
-Started on Dec 5, 2011 5:49:26 PM
-[workspace] $ /Users/arelande/Documents/workspace/DummyVault/bin/Vault " VERSIONHISTORY " " -host name" " -ssl " " -user user" " -password pass" " -repository repo" " -enddate 05.12.2011 17:49:26" " -begindate 05.12.2011 17:43:51 " $/somefolder
-Done. Took 0.2 sec
-Changes found

@@ -4,6 +4,7 @@
  * @since 2011-12-07
  */
 
+
 package org.jvnet.hudson.plugins;
 
 import hudson.model.AbstractBuild;
