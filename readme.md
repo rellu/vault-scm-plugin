@@ -1,13 +1,15 @@
-SourceGear Vault (tm) plugin for Jenkins Version (0.1)
+SourceGear Vault (tm) plugin for Jenkins
 ====================
+
 
 This is a plugin for [Jenkins CI server](http://jenkins-ci.org/). This plugin integrates [SourceGear Vault/Fortress](http://www.sourcegear.com/) version control with Jenkins. Currently the plugin supports polling SCM for changes, triggering build if there is changes and keeping the changelog.
 
 NOTE
 ====
 
-We are not related to SourceGear so in this sense this is an unofficial plugin.
-This software is MIT licensed open-source, so please fork it and make updates you require. 
+This is version 0.1 and might still have some issue.
+We are not affiliated with SourceGear so in this sense this is an unofficial plugin.
+This software is MIT licensed open-source, so please fork it and make updates as you require. 
 
 Installation
 ============
