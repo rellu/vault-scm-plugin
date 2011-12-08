@@ -1,3 +1,9 @@
+/**
+ * @author Antti Relander / Eficode
+ * @verison 0.1
+ * @since 2011-12-07
+ */
+
 package org.jvnet.hudson.plugins;
 
 import hudson.model.AbstractBuild;
@@ -42,7 +48,6 @@ public final class VaultSCMChangeLogSet extends ChangeLogSet<VaultSCMChangeLogSe
 			this.affectedFile = "User defined path";
 			this.comment = comment;
 			this.version = version;
-			//this.action = action;
 			this.date = date;
 			this.user = User.get(userName);
 			setParent(parent);
@@ -66,18 +71,7 @@ public final class VaultSCMChangeLogSet extends ChangeLogSet<VaultSCMChangeLogSe
 		public String getVersion(){
 			return version;
 		}
-		
-//		public String getName(){
-//			return affectedFile;
-//		}
-		
-//		public String getAffectedFile(){
-//			return affectedFile;
-//		}
-		
-//		public String getAction(){
-//			return action;
-//		}
+
 		public String getComment(){
 			return comment;
 		}	

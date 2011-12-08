@@ -1,3 +1,9 @@
+/**
+ * @author Antti Relander / Eficode
+ * @verison 0.1
+ * @since 2011-12-07
+ */
+
 package org.jvnet.hudson.plugins;
 
 import org.jvnet.hudson.plugins.VaultSCMRevisionState;
@@ -122,6 +128,7 @@ public final class VaultSCM extends SCM {
 	@Extension
 	public static final VaultSCMDescriptor DESCRIPTOR = new VaultSCMDescriptor();
 	
+	//format dates for vault client
 	public static final SimpleDateFormat VAULT_DATETIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	@DataBoundConstructor
@@ -183,28 +190,25 @@ public final class VaultSCM extends SCM {
 		 if (server != null )
 			 listener.getLogger().println("server: "+server);
 		
-		String[] cmd = new String[10];
-		//required parameters
-		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "GET";
-		cmd[2] = "-host ".concat(server) ;
-		cmd[3] = "-ssl";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6] = "-repository ".concat(repository);
-		//optional parameters
-		cmd[7] = "-merge automatic";
-		cmd[8] = "-workingfolder ".concat(workspace.getRemote());
-		cmd[9] = this.path;
-		
+		//populate the GET command
+		//in some cases username, host and password can be empty e.g. if rememberlogin is used to store login data
     	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
     	argBuildr.add(getVaultSCMExecutable());
     	argBuildr.add("GET");
-    	argBuildr.add("-host",server);
+    	
+    	if (!server.isEmpty()) 
+    		argBuildr.add("-host",server);
+    	
+    	if (!userName.isEmpty())
+    		argBuildr.add("-user",userName);
+    	
+    	if (!password.isEmpty())
+    		argBuildr.add("-password",password);
+    	
+    	if (!repository.isEmpty())
+    		argBuildr.add("-repository",repository);
+    	
     	argBuildr.add("-ssl");
-    	argBuildr.add("-user",userName);
-    	argBuildr.add("-password",password);
-    	argBuildr.add("-repository",repository);
     	argBuildr.add("-merge","automatic");
     	argBuildr.add("-workingfolder",workspace.getRemote() );
     	argBuildr.add(this.path);
@@ -247,23 +251,7 @@ public final class VaultSCM extends SCM {
 		String latestBuildDate = VAULT_DATETIME_FORMATTER.format(lastBuildDate);
 		
 		String today = (VAULT_DATETIME_FORMATTER.format(currentDate));		
-		
-		String[] cmd = new String[10];
-		//required parameters
-		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "VERSIONHISTORY" ;
-		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository ".concat(repository);
-		cmd[7] = "-enddate ".concat(today);
-		cmd[8] = "-begindate ".concat(latestBuildDate);
-		cmd[9] = this.path;
-		//optional parameters here if needed
-		
-		
-		
+
 		FileOutputStream os = new FileOutputStream(changelogFile);
 		try {
             BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -273,11 +261,20 @@ public final class VaultSCM extends SCM {
             	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
             	argBuildr.add(getVaultSCMExecutable());
             	argBuildr.add("VERSIONHISTORY");
-            	argBuildr.add("-host",server);
+            	
+            	if (!server.isEmpty())
+            		argBuildr.add("-host",server);
+            	
+            	if (!userName.isEmpty())
+            		argBuildr.add("-user",userName);
+            	
+            	if (!password.isEmpty())
+            		argBuildr.add("-password",password);
+            	
+            	if (!repository.isEmpty())
+            		argBuildr.add("-repository",repository);
+            	
             	argBuildr.add("-ssl");
-            	argBuildr.add("-user",userName);
-            	argBuildr.add("-password",password);
-            	argBuildr.add("-repository",repository);
             	argBuildr.add("-enddate",today);
             	argBuildr.add("-begindate",latestBuildDate);
             	argBuildr.add(this.path);
@@ -312,21 +309,7 @@ public final class VaultSCM extends SCM {
 		String latestBuildDate = VAULT_DATETIME_FORMATTER.format(lastBuildDate);
 		
 		String today = (VAULT_DATETIME_FORMATTER.format(currentDate));		
-		
-		String[] cmd = new String[10];
-		//required parameters
-		cmd[0] = getVaultSCMExecutable();
-		cmd[1] = "VERSIONHISTORY" ;
-		cmd[2] = "-host ".concat(server);
-		cmd[3] = "-ssl";
-		cmd[4] = "-user ".concat(userName);
-		cmd[5] = "-password ".concat(password);
-		cmd[6]= "-repository ".concat(repository);
-		cmd[7] = "-enddate ".concat(today);
-		cmd[8] = "-begindate ".concat(latestBuildDate);
-		cmd[9] = this.path;
-		//optional parameters here if needed
-		
+
 		FileOutputStream os = new FileOutputStream(changelogFile);
 		try {
             BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -336,11 +319,20 @@ public final class VaultSCM extends SCM {
             	ArgumentListBuilder argBuildr = new ArgumentListBuilder();
             	argBuildr.add(getVaultSCMExecutable());
             	argBuildr.add("VERSIONHISTORY");
-            	argBuildr.add("-host",server);
+            	
+            	if (!server.isEmpty())
+            		argBuildr.add("-host",server);
+            	
+            	if (!userName.isEmpty())
+            		argBuildr.add("-user",userName);
+            	
+            	if (!password.isEmpty())
+            		argBuildr.add("-password",password);
+            	
+            	if (!repository.isEmpty())
+            		argBuildr.add("-repository",repository);
+            	
             	argBuildr.add("-ssl");
-            	argBuildr.add("-user",userName);
-            	argBuildr.add("-password",password);
-            	argBuildr.add("-repository",repository);
             	argBuildr.add("-enddate",today);
             	argBuildr.add("-begindate",latestBuildDate);
             	argBuildr.add(this.path);

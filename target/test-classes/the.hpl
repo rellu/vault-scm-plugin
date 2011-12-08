@@ -3,7 +3,7 @@ Group-Id: org.jvnet.hudson.plugins
 Short-Name: vault-scm-plugin
 Long-Name: vault-scm-plugin
 Url: http://jenkins-ci.org/plugin/vault-scm-plugin/
-Plugin-Version: 1.0-SNAPSHOT (private-12/07/2011 16:21-arelande)
+Plugin-Version: 1.0-SNAPSHOT (private-12/08/2011 10:20-arelande)
 Hudson-Version: 1.399
 Plugin-Developers: 
 Libraries: /Users/arelande/Documents/vault-scm-plugin/target/classes,/

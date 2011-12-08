@@ -1,3 +1,9 @@
+/**
+ * @author Antti Relander / Eficode
+ * @verison 0.1
+ * @since 2011-12-07
+ */
+
 package org.jvnet.hudson.plugins;
 
 import java.io.BufferedReader;

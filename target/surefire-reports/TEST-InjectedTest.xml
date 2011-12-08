@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="3.983" errors="0" skipped="0" tests="6" name="InjectedTest">
+<testsuite failures="0" time="4.176" errors="0" skipped="0" tests="6" name="InjectedTest">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Libraries"/>
@@ -22,7 +22,7 @@
     <property name="basedir" value="/Users/arelande/Documents/vault-scm-plugin"/>
     <property name="java.endorsed.dirs" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/endorsed"/>
     <property name="os.arch" value="x86_64"/>
-    <property name="surefire.real.class.path" value="/Users/arelande/Documents/vault-scm-plugin/target/surefire/surefirebooter7886503751921910463.jar"/>
+    <property name="surefire.real.class.path" value="/Users/arelande/Documents/vault-scm-plugin/target/surefire/surefirebooter1067956071628989877.jar"/>
     <property name="hudson.udp" value="33849"/>
     <property name="java.io.tmpdir" value="/var/folders/5x/rs3h6dc52yx58k84v78yg0nc0000gn/T/"/>
     <property name="line.separator" value="
@@ -48,7 +48,7 @@
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home"/>
-    <property name="sun.java.command" value="/Users/arelande/Documents/vault-scm-plugin/target/surefire/surefirebooter7886503751921910463.jar /Users/arelande/Documents/vault-scm-plugin/target/surefire/surefire7112826813739298637tmp /Users/arelande/Documents/vault-scm-plugin/target/surefire/surefire5388704011550844395tmp"/>
+    <property name="sun.java.command" value="/Users/arelande/Documents/vault-scm-plugin/target/surefire/surefirebooter1067956071628989877.jar /Users/arelande/Documents/vault-scm-plugin/target/surefire/surefire7763569927156658382tmp /Users/arelande/Documents/vault-scm-plugin/target/surefire/surefire4734210746553199406tmp"/>
     <property name="svnkit.ssh2.persistent" value="false"/>
     <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
     <property name="user.language" value="en"/>
@@ -68,10 +68,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="0.08" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/index.jelly"/>
-  <testcase time="0.201" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCM/config.jelly"/>
-  <testcase time="0.003" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCM/global.jelly"/>
-  <testcase time="0.003" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCMChangeLogSet/digest.jelly"/>
-  <testcase time="0.008" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCMChangeLogSet/index.jelly"/>
+  <testcase time="0.054" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/index.jelly"/>
+  <testcase time="0.223" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCM/config.jelly"/>
+  <testcase time="0.002" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCM/global.jelly"/>
+  <testcase time="0.004" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCMChangeLogSet/digest.jelly"/>
+  <testcase time="0.009" classname="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyCheck" name="/Users/arelande/Documents/vault-scm-plugin/target/classes/org/jvnet/hudson/plugins/VaultSCMChangeLogSet/index.jelly"/>
   <testcase time="0" classname="org.jvnet.hudson.test.junit.FailedTest" name="org.jvnet.hudson.test.JellyTestSuiteBuilder$JellyTestSuite"/>
 </testsuite>

@@ -5,9 +5,9 @@
   <keepDependencies>false</keepDependencies>
   <properties/>
   <scm class="org.jvnet.hudson.plugins.VaultSCM">
-    <server>name</server>
+    <server></server>
     <userName>user</userName>
-    <password>pass</password>
+    <password></password>
     <repository>repo repo</repository>
     <vaultSCMExecutable>./Vault</vaultSCMExecutable>
     <path>$/somefolder</path>
