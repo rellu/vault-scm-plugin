@@ -17,7 +17,9 @@ Installation
 * Copy the .hpi file to <jenkins>/plugins/ or use the GUI installer on "manage Jenkins->manage plugins->advanced"
 * Restart Jenkins
 
-Note: you need to have vault command line tool installed to use this plugin.
+Alternatively you can built the project from sources with Maven.
+
+Note: you need to have vault command line tool installed on Jenkins machine to use this plugin.
 	
 Usage
 =====
